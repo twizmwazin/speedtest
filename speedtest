@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import time
+import speedtest_cli
+
+
+def main():
+    last_time = time.time()
+    while True:
+        if (time.time() < 60.0 + last_time):
+            print('no')
+            time.sleep(5)
+        else:
+            last_time = time.time()
+            # Run speed test
+            # Save speedtest data
+            print('yes')
+            time.sleep(20)
+
+
+main()
