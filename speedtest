@@ -1,21 +1,42 @@
 #!/usr/bin/env python3
 
 import time
-import speedtest_cli
+import pyspeedtest
+
+def write_test(time, ping, dl, ul):
+    txt = open(str(start_time), "a")
+    txt.write(str(time))
+    txt.write("\t")
+    txt.write(str(ping))
+    txt.write("\t")
+    txt.write(str(dl))
+    txt.write("\t")
+    txt.write(str(ul))
+    txt.write("\n")
+    txt.close()
 
 
 def main():
+    start_time = time.time()
+    txt = open(str(start_time),"w")
+    txt.close()
     last_time = time.time()
+
+    write_test(last_time, 0, 0, 0)
+
     while True:
-        if (time.time() < 60.0 + last_time):
-            print('no')
-            time.sleep(5)
-        else:
-            last_time = time.time()
-            # Run speed test
-            # Save speedtest data
-            print('yes')
-            time.sleep(20)
+    	if (time.time() < 60.0 + last_time):
+    		time.sleep(5)
+
+    	else:
+    		last_time = time.time()
+    		st = pyspeedtest.SpeedTest()
+    		last_ping = st.ping()
+    		last_dl = st.download() / 1000000
+    		last_ul = st.upload() / 1000000
+    		write_test(last_time, last_ping, last_dl, last_ul)
+    		time.sleep(20)
 
 
+write_test(0, 0, 0, 0)
 main()
