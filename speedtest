@@ -3,22 +3,14 @@
 import time
 import pyspeedtest
 
-def write_test(time, ping, dl, ul):
-    txt = open(str(start_time), "a")
-    txt.write(str(time))
-    txt.write("\t")
-    txt.write(str(ping))
-    txt.write("\t")
-    txt.write(str(dl))
-    txt.write("\t")
-    txt.write(str(ul))
-    txt.write("\n")
-    txt.close()
+
+start_time = str(time.asctime( time.localtime(time.time()) ))
+start_time_string_1 = start_time.replace(" ","_")
+start_time_string = start_time_string_1.replace(":","_")
 
 
 def main():
-    start_time = time.time()
-    txt = open(str(start_time),"w")
+    txt = open(start_time_string,"w")
     txt.close()
     last_time = time.time()
 
@@ -37,6 +29,18 @@ def main():
     		write_test(last_time, last_ping, last_dl, last_ul)
     		time.sleep(20)
 
+			
+			
+def write_test(time, ping, dl, ul):
+    txt = open(start_time_string, "a")
+    txt.write(str(time))
+    txt.write("\t")
+    txt.write(str(ping))
+    txt.write("\t")
+    txt.write(str(dl))
+    txt.write("\t")
+    txt.write(str(ul))
+    txt.write("\n")
+    txt.close()			
 
-write_test(0, 0, 0, 0)
 main()
