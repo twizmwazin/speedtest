@@ -2,32 +2,37 @@
 
 import time
 import pyspeedtest
+import argparse
 
+parser = argparse.ArgumentParser()
 
-start_time = str(time.asctime( time.localtime(time.time()) ))
+parser.add_argument("interval",help = "The interval of time between speedtest runs. Should be at least 60 seconds",type = float)
+args = parser.parse_args()
+start_time = str(time.asctime(time.localtime(time.time())))
 start_time_string_1 = start_time.replace(" ","_")
 start_time_string = start_time_string_1.replace(":","_")
 
 
 def main():
-    txt = open(start_time_string,"w")
-    txt.close()
-    last_time = time.time()
+    if (args.interval >= 50.0):
+		txt = open(start_time_string,"w")
+		txt.close()
+		last_time = time.time()
 
-    write_test(last_time, 0, 0, 0)
+		write_test(last_time, 0, 0, 0)
 
-    while True:
-    	if (time.time() < 60.0 + last_time):
-    		time.sleep(5)
+		while True:
+			if (time.time() < args.interval + last_time):
+				time.sleep(0.1*args.interval)
 
-    	else:
-    		last_time = time.time()
-    		st = pyspeedtest.SpeedTest()
-    		last_ping = st.ping()
-    		last_dl = st.download() / 1000000
-    		last_ul = st.upload() / 1000000
-    		write_test(last_time, last_ping, last_dl, last_ul)
-    		time.sleep(20)
+			else:
+				last_time = time.time()
+				st = pyspeedtest.SpeedTest()
+				last_ping = st.ping()
+				last_dl = st.download() / 1000000
+				last_ul = st.upload() / 1000000
+				write_test(last_time, last_ping, last_dl, last_ul)
+				time.sleep(args.interval - 50.0)
 
 			
 			
@@ -42,5 +47,6 @@ def write_test(time, ping, dl, ul):
     txt.write(str(ul))
     txt.write("\n")
     txt.close()			
-
+	
+	
 main()
