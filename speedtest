@@ -14,7 +14,7 @@ start_time_string = start_time_string_1.replace(":","_")
 
 
 def main():
-    if (args.interval >= 50.0):
+	if (args.interval >= 50.0):
 		txt = open(start_time_string,"w")
 		txt.close()
 		last_time = time.time()
